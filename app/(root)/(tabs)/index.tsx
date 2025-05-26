@@ -4,11 +4,15 @@ import { Text, View } from "react-native";
 function Index() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text className="font-bold text-blue-500 text-2xl my-10">
+      <Text className="text-blue-500 text-3xl my-10 font-rubik-extrabold">
         Sign In
       </Text>
-      <Link href="/sign-in">Click Here to Sign In</Link>
-      <Link href="/properties/1">Go to Property 1</Link>
+      <Link href="/sign-in" className="text-blue-500 font-rubik">
+        Click Here to Sign In
+      </Link>
+      <Link href="/properties/1" className="text-blue-500 font-rubik">
+        Go to Property 1
+      </Link>
     </View>
   );
 }
