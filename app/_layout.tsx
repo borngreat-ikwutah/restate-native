@@ -2,6 +2,7 @@ import { SplashScreen, Stack } from "expo-router";
 
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import GlobalAuthProvider from "~/db/auth-provider";
 import "./global.css";
 
 export default function RootLayout() {
@@ -14,14 +15,18 @@ export default function RootLayout() {
     "Rubik-ExtraBold": require("../assets/fonts/Rubik-ExtraBold.ttf"),
   });
 
-  useEffect(()=> {
-    if(!fontsloaded) {
-      console.warn("Fonts are not loaded yet");
-      SplashScreen.hideAsync()
+  useEffect(() => {
+    if (!fontsloaded) {
+      // console.warn("Fonts are not loaded yet");
+      SplashScreen.hideAsync();
     }
-  }, [fontsloaded])
+  }, [fontsloaded]);
 
-  if(!fontsloaded) return null;
+  if (!fontsloaded) return null;
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <GlobalAuthProvider>
+      <Stack screenOptions={{ headerShown: false }} />
+    </GlobalAuthProvider>
+  );
 }
