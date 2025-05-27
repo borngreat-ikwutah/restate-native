@@ -89,23 +89,20 @@ export async function LogOut() {
 }
 
 export async function GetUser() {
-    try {
-        const user = await account.get();
+     try {
+    const result = await account.get();
+    if (result.$id) {
+      const userAvatar = avatars.getInitials(result.name);
 
-        // CREATED WHEN THERE IS A NEW USER ID
-        if(!user.$id) {
-            const userAvatar = avatars.getInitials(user.name || "User");
-            return {
-               ...user,
-                avatar: userAvatar.toString(),
-            };
-        }
-    } catch (error) {
-        console.error("Get user failed:", error);
-        return {
-            user: null,
-            found: false,
-            error: error instanceof Error ? error.message : "An unknown error occurred"
-        };
+      return {
+        ...result,
+        avatar: userAvatar.toString(),
+      };
     }
+
+    return null;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 }
