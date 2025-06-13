@@ -1,4 +1,4 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Card, FeatureCard } from "~/components/cards";
 import Filters from "~/components/filters";
@@ -17,67 +17,80 @@ function Index() {
     : null;
   return (
     <SafeAreaView className="bg-white h-full ">
-      <View className="px-5">
-        <View className="flex flex-row items-center justify-between mt-5">
-          <View className="flex flex-row">
-            <Image
-              source={{ uri: avatarUri || "" }}
-              className="size-12 rounded-full"
-            />
+      <FlatList
+        data={[1, 2, 3, 4]}
+        renderItem={() => <Card />}
+        keyExtractor={(item) => item.toString()}
+        numColumns={2}
+        contentContainerClassName="pb-32"
+        columnWrapperClassName="flex gap-5 px-5"
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <View className="px-5">
+            <View className="flex flex-row items-center justify-between mt-5">
+              <View className="flex flex-row">
+                <Image
+                  source={{ uri: avatarUri || "" }}
+                  className="size-12 rounded-full"
+                />
 
-            <View className="flex flex-col items-start ml-2 justify-center">
-              <Text className="text-xs font-rubik text-black-100">
-                {getGreetingBasedOnTime(time)}
-              </Text>
-              <Text className="text-base font-rubik-medium text-black-300">
-                {user?.name}
-              </Text>
+                <View className="flex flex-col items-start ml-2 justify-center">
+                  <Text className="text-xs font-rubik text-black-100">
+                    {getGreetingBasedOnTime(time)}
+                  </Text>
+                  <Text className="text-base font-rubik-medium text-black-300">
+                    {user?.name}
+                  </Text>
+                </View>
+              </View>
+
+              <Image source={icons.bell} className="size-6" />
             </View>
-          </View>
+            <Search />
 
-          <Image source={icons.bell} className="size-6" />
-        </View>
-        <Search />
+            {/* FEATURED  AND RECOMMENDATION LISTS */}
+            <View className="my-5">
+              <View className="flex flex-row items-center justify-between">
+                <Text className="text-xl font-rubik-bold text-black-300">
+                  Featured
+                </Text>
+                <TouchableOpacity>
+                  <Text className="text-base font-rubik-bold text-primary-300">
+                    See All
+                  </Text>
+                </TouchableOpacity>
+              </View>
 
-        {/* FEATURED  AND RECOMMENDATION LISTS */}
-        <View className="my-5">
-          <View className="flex flex-row items-center justify-between">
-            <Text className="text-xl font-rubik-bold text-black-300">
-              Featured
-            </Text>
-            <TouchableOpacity>
-              <Text className="text-base font-rubik-bold text-primary-300">
-                See All
+              <FlatList
+                data={[1, 2, 3]}
+                renderItem={() => <FeatureCard />}
+                keyExtractor={(item) => item.toString()}
+                horizontal
+                bounces={false}
+                showsHorizontalScrollIndicator={false}
+                contentContainerClassName="flex flex-row gap-5 mt-5"
+              />
+            </View>
+
+            {/* OUR RECOMMENDATION LISTS */}
+            <View className="flex flex-row items-center justify-between">
+              <Text className="text-xl font-rubik-bold text-black-300">
+                Our Recommendations
               </Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* FEATURE CARDS VIEW */}
-          <View className="flex flex-row gap-5 mt-5">
-            <FeatureCard />
-            <FeatureCard />
-            <FeatureCard />
-            {/* <Card /> */}
-          </View>
-        </View>
-        {/* OUR RECOMMENDATION LISTS */}
-        <View className="flex flex-row items-center justify-between">
-          <Text className="text-xl font-rubik-bold text-black-300">
-            Our Recommendations
-          </Text>
-          <TouchableOpacity>
-            <Text className="text-base font-rubik-bold text-primary-300">
-              See All
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <Filters />
-        <View className="flex flex-row gap-5 mt-5">
+              <TouchableOpacity>
+                <Text className="text-base font-rubik-bold text-primary-300">
+                  See All
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <Filters />
+            {/* <View className="flex flex-row gap-5 mt-5">
           <Card />
           <Card />
-          {/* <Card /> */}
-        </View>
-      </View>
+        </View> */}
+          </View>
+        }
+      />
     </SafeAreaView>
   );
 }
