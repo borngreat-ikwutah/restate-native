@@ -10,7 +10,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { settings } from "~/constants/data";
 import icons from "~/constants/icons";
-import images from "~/constants/images";
 import { LogOut } from "~/db/appwrite";
 import { useGlobalAuth } from "~/db/auth-provider";
 
@@ -56,6 +55,11 @@ const Profile = () => {
     }
   };
 
+  const avatarUri = user?.name 
+  ? `https://api.dicebear.com/9.x/adventurer/png?seed=${user.name}&size=176`
+  : null;
+
+  // console.log(`https://api.dicebear.com/9.x/adventurer/svg?seed=${user?.name}`)
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView
@@ -70,9 +74,14 @@ const Profile = () => {
         <View className="mt-5 flex flex-row justify-center">
           <View className="flex flex-col items-center relative mt-5">
             <Image
-              source={images.avatar ?? user?.avatar}
-              resizeMode="contain"
+              source={{
+                uri: avatarUri || "",
+              }}
               className="size-44 rounded-full relative"
+              onError={() => {
+                // Fallback to default avatar if URL fails to load
+                console.log("Failed to load avatar from URL");
+              }}
             />
             <TouchableOpacity className="absolute bottom-14 right-6">
               <Image source={icons.edit} className="size-9" />

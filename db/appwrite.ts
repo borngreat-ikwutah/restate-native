@@ -25,7 +25,7 @@ export async function Login() {
     try {
         const redirectUrl = Linking.createURL("/");
 
-        const response = await account.createOAuth2Token(OAuthProvider.Google, redirectUrl);
+        const response = account.createOAuth2Token(OAuthProvider.Google, redirectUrl);
 
         if(!response) {
             throw new Error("Failed to Login");
